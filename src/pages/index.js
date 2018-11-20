@@ -2,6 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link, graphql } from 'gatsby'
 import Layout from '../components/Layout'
+import { Card, Icon, Avatar, Row, Col } from "antd";
+
+const { Meta } = Card;
 
 export default class IndexPage extends React.Component {
   render() {
@@ -10,37 +13,37 @@ export default class IndexPage extends React.Component {
 
     return (
       <Layout>
-        <section className="section">
+
           <div className="container">
             <div className="content">
               <h1 className="has-text-weight-bold is-size-2">Latest Stories</h1>
             </div>
-            {posts
-              .map(({ node: post }) => (
-                <div
-                  className="content"
-                  style={{ border: '1px solid #eaecee', padding: '2em 4em' }}
+            <Row gutter={16}>
+            {posts.map(({ node: post }) => (
+
+                <Col span={8}>
+                <Card
                   key={post.id}
+                  style={{ width: 300, marginTop: '1rem'}}
+                  cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
+                  actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
                 >
-                  <p>
-                    <Link className="has-text-primary" to={post.fields.slug}>
+
+                  <Meta
+                    avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                    title={<><Link className="has-text-primary" to={post.fields.slug}>
                       {post.frontmatter.title}
                     </Link>
-                    <span> &bull; </span>
-                    <small>{post.frontmatter.date}</small>
-                  </p>
-                  <p>
-                    {post.excerpt}
-                    <br />
-                    <br />
-                    <Link className="button is-small" to={post.fields.slug}>
-                      Keep Reading →
-                    </Link>
-                  </p>
-                </div>
+                      <span> &bull; </span>
+                      <small>{post.frontmatter.date}</small></>}
+                    description={post.excerpt}
+                  />
+                </Card>
+                </Col>
               ))}
+            </Row>
           </div>
-        </section>
+
       </Layout>
     )
   }
@@ -76,4 +79,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;
